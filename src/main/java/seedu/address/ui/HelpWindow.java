@@ -87,6 +87,18 @@ public class HelpWindow extends UiPart<Stage> {
             + NEWLINE_AND_INDENTATION
             + "Format: import C:\\Users\\users\\Documents\\tp.xlsx";
 
+            + "\n11. UNDO an executed add, edit or delete command."
+            + NEWLINE_AND_INDENTATION
+            + "Format: undo\n"
+
+            + "\n12. REDO an executed undo command.."
+            + NEWLINE_AND_INDENTATION
+            + "Format: redo\n"
+
+            + "\n13. EMAIL addresses of the students in the list are collated"
+            + NEWLINE_AND_INDENTATION
+            + "Format: email";
+
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
 
