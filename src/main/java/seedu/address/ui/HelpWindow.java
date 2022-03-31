@@ -85,7 +85,7 @@ public class HelpWindow extends UiPart<Stage> {
 
             + "\n10. IMPORT excel files"
             + NEWLINE_AND_INDENTATION
-            + "Format: import C:\\Users\\users\\Documents\\tp.xlsx";
+            + "Format: import C:\\Users\\users\\Documents\\tp.xlsx"
 
             + "\n10. UNDO an executed add, edit or delete command."
             + NEWLINE_AND_INDENTATION
