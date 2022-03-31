@@ -27,5 +27,19 @@
 }
 
 #importButton:hover {
+=======
+#resizeButton {
+    -fx-text-fill: white;
+}
+
+#resizeButton {
+    -fx-background-color: xanadu;
+}
+
+#resizeButton {
+    -fx-border-radius: 5px;
+}
+
+#resizeButton:hover {
     -fx-background-color: gray;
 }
