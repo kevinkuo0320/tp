@@ -180,20 +180,28 @@ public class MainWindow extends UiPart<Stage> {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         File selectedFile = fileChooser.showOpenDialog(stage);
         String fileType = selectedFile.toString();
-        if (!Files.getFileExtension(fileType).equals("xlsx") && !Files.getFileExtension(fileType).equals("xls")) {
+        if (!Files.getFileExtension(fileType).equals("xlsx") /*|| !Files.getFileExtension(fileType).equals("xls")*/) {
             resultDisplay.setFeedbackToUser("Imported file is not in excel format");
+            return;
         }
         ImportFileParser converter = new ImportFileParser();
         List<String> res;
+
+        res = converter.jsonToPerson(selectedFile);
+        if (res.isEmpty()) {
+            resultDisplay.setFeedbackToUser("Wrong format! Please refers to our User Guide");
+            return;
+        }
         try {
-            res = converter.jsonToPerson(selectedFile);
             for (int i = 0; i < res.size(); i++) {
                 executeCommand(res.get(i));
             }
-            resultDisplay.setFeedbackToUser("File successfully imported");
         } catch (NullPointerException e) {
-            resultDisplay.setFeedbackToUser("Wrong format! Please refer to our user guide for correct format");
+            resultDisplay.setFeedbackToUser("Wrong format Please refers to our User Guide");
+            return;
         }
+        resultDisplay.setFeedbackToUser("File successfully imported");
+
     }
 
     /**
