@@ -33,6 +33,9 @@ public class ImportCommand extends Command {
      * Creates an ImportCommand to add the specified
      */
     public ImportCommand(String filePath) throws IllegalArgumentException {
+        if (filePath == null) {
+            throw new IllegalArgumentException("filepath is not specified");
+        }
         requireNonNull(filePath);
         toFile = filePath;
     }
@@ -47,22 +50,24 @@ public class ImportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException, ParseException {
         requireNonNull(model);
-        if (!Files.getFileExtension(toFile).equals("xlsx")) {
+        if (!Files.getFileExtension(toFile).equals("xlsx") && !Files.getFileExtension(toFile).equals("xls")) {
             return new CommandResult("Imported file is not in excel format");
         }
         File f = new File(toFile);
+        if (!f.exists()) {
+            throw new CommandException("the file cannot be found!");
+        }
         ImportFileParser converter = new ImportFileParser();
-        List<String> res = converter.jsonToPerson(f);
-        if (res.isEmpty()) {
-            return new CommandResult("Wrong format!  Please refers to our User Guide");
-        } else {
+        try {
+            List<String> res = converter.jsonToPerson(f);
             for (int i = 0; i < res.size(); i++) {
                 Command c = new AddressBookParser().parseCommand(res.get(i));
                 c.execute(model);
             }
-            return new CommandResult(String.format(MESSAGE_SUCCESS));
+        } catch (NullPointerException e) {
+            return new CommandResult("Wrong format! Please refer to our user guide for correct format");
         }
-
+        return new CommandResult(String.format(MESSAGE_SUCCESS));
     }
 
 }

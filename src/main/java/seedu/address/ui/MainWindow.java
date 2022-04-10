@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.google.common.io.Files;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -24,6 +25,7 @@ import seedu.address.logic.commands.SummariseCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.excel.ImportFileParser;
+import seedu.address.model.person.Person;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -247,14 +249,15 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     public void handleResizeResultDisplayWindow() {
         resultDisplayPlaceholder.setMinHeight(ResizeCommand.getResultWindowDisplaySize()
-                * ResizeCommand.getResieWindowMultiplier());
+                * ResizeCommand.RESIZE_WINDOW_MULTIPLIER);
     }
 
     /**
      * Instantiates a new EmailWindow and shows it.
      */
     public void createEmailWindow() {
-        emailWindow = new EmailWindow(logic.getFilteredPersonList());
+        ObservableList<Person> filteredList = logic.getFilteredPersonList();
+        emailWindow = new EmailWindow(filteredList);
         emailWindow.show();
     }
 
@@ -286,17 +289,13 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private void handleSummarise(String message) {
         if (SummariseCommand.shouldOpenPieChartWindow()) {
-            if (pieChartWindow == null || !pieChartWindow.isShowing()) {
-                pieChartWindow = new PieChartWindow();
-                pieChartWindow.execute();
-                pieChartWindow.show();
-                logger.info("Pie chart window is not yet initialised or not showing!");
-            } else {
+            if (pieChartWindow.isShowing()) {
                 pieChartWindow.hide();
-                pieChartWindow = new PieChartWindow();
-                pieChartWindow.show();
-                logger.info("Pie chart window already showing, proceeding to reopen it!");
+                logger.info("Pie chart window is not yet initialised or not showing!");
             }
+            pieChartWindow = new PieChartWindow();
+            pieChartWindow.execute();
+            pieChartWindow.show();
         } else {
             logger.info("Pie chart window not opened because address book is empty!");
         }

@@ -13,6 +13,9 @@ import seedu.address.model.tag.Tag;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Person {
+
+    public static final String[] UNIQUE_ATTRIBUTE_TYPES = {"Phone", "Email", "Matriculation Number"};
+
     // Identity fields
     private final Name name;
     private final Block block;
@@ -139,6 +142,21 @@ public class Person {
                 || otherPerson.getMatriculationNumber().equals(getMatriculationNumber())
                 || otherPerson.getEmail().equals(getEmail()));
     }
+
+    /**
+     * Returns true if both persons have different phone numbers or matriculation numbers or emails
+     * This helps to identify if any of the unique details of a person has been altered.
+     */
+    public boolean isDifferentPerson(Person otherPerson) {
+        if (otherPerson == this) {
+            return false;
+        }
+        return otherPerson != null
+                && !(otherPerson.getPhone().equals(getPhone())
+                && otherPerson.getMatriculationNumber().equals(getMatriculationNumber())
+                && otherPerson.getEmail().equals(getEmail()));
+    }
+
 
     /**
      * Returns true if both persons have the same identity and data fields.
