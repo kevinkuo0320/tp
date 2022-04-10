@@ -192,12 +192,12 @@ public class MainWindow extends UiPart<Stage> {
         try {
             res = converter.jsonToPerson(selectedFile);
         } catch (NullPointerException e) {
-            resultDisplay.setFeedbackToUser("Wrong format! Please refers to our User Guide");
+            resultDisplay.setFeedbackToUser("Wrong format! Please refer to our User Guide");
             return;
         }
 
         if (res.isEmpty()) {
-            resultDisplay.setFeedbackToUser("Wrong format! Please refers to our User Guide");
+            resultDisplay.setFeedbackToUser("Wrong format! Please refer to our User Guide");
             return;
         }
         try {
@@ -206,7 +206,7 @@ public class MainWindow extends UiPart<Stage> {
                 count = i;
             }
         } catch (CommandException e) {
-            resultDisplay.setFeedbackToUser(String.format("Row %d in excel: %s", count + 3,
+            resultDisplay.setFeedbackToUser(String.format("Row %d in excel: %s", count + 2,
                     e.getMessage().substring(14)));
             return;
         }
