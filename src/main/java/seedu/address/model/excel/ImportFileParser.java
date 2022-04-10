@@ -27,30 +27,33 @@ public class ImportFileParser {
         resultList = new ArrayList<>();
         ExcelToJsonConverter converter = new ExcelToJsonConverter();
         JsonNode data = converter.excelToJson(file);
-
-        int len = data.get("Sheet1").size();
-        for (int i = 0; i < len; i++) {
-            String res = "";
-            JsonNode person = data.get("Sheet1").get(i);
-            String name = "n/" + person.get("NAME").textValue().trim() + " ";
-            String block = "b/" + person.get("BLOCK").textValue().trim() + " ";
-            String faculty = "f/" + person.get("FACULTY").textValue().toUpperCase().trim() + " ";
-            String phone = "p/" + person.get("PHONE").asInt() + " ";
-            String email = "e/" + person.get("EMAIL").textValue().trim() + " ";
-            String address = "a/" + person.get("ADDRESS").textValue().trim() + " ";
-            String mc = "mc/" + person.get("MATRICULATION NUMBER").textValue().trim() + " ";
-            String cs = "cs/" + person.get("COVID STATUS").textValue().trim() + " ";
-            String tag = "t/" + person.get("TAG").textValue().trim() + " ";
-            res = "add " + name + block + faculty + phone + email + address + mc + cs + tag;
-            try {
-                Command c = new AddressBookParser().parseCommand(res);
-            } catch (ParseException e) {
-                flag = false;
+        if (data == null || data.isNull()) {
+            flag = false;
+        } else {
+            int len = data.get("Sheet1").size();
+            for (int i = 0; i < len; i++) {
+                String res = "";
+                JsonNode person = data.get("Sheet1").get(i);
+                String name = "n/" + person.get("NAME").textValue().trim() + " ";
+                String block = "b/" + person.get("BLOCK").textValue().trim() + " ";
+                String faculty = "f/" + person.get("FACULTY").textValue().toUpperCase().trim() + " ";
+                String phone = "p/" + person.get("PHONE").asInt() + " ";
+                String email = "e/" + person.get("EMAIL").textValue().trim() + " ";
+                String address = "a/" + person.get("ADDRESS").textValue().trim() + " ";
+                String mc = "mc/" + person.get("MATRICULATION NUMBER").textValue().trim() + " ";
+                String cs = "cs/" + person.get("COVID STATUS").textValue().trim() + " ";
+                String tag = "t/" + person.get("TAG").textValue().trim() + " ";
+                res = "add " + name + block + faculty + phone + email + address + mc + cs + tag;
+                try {
+                    Command c = new AddressBookParser().parseCommand(res);
+                } catch (ParseException e) {
+                    flag = false;
+                }
+                resultList.add(res);
             }
-            resultList.add(res);
-        }
-        if (!flag) {
-            resultList.clear();
+            if (!flag) {
+                resultList.clear();
+            }
         }
         return resultList;
     }
