@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.common.io.Files;
 
+import org.checkerframework.checker.units.qual.C;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -49,23 +50,28 @@ public class ImportCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException, ParseException {
+        int count = 0;
         requireNonNull(model);
         if (!Files.getFileExtension(toFile).equals("xlsx") && !Files.getFileExtension(toFile).equals("xls")) {
-            return new CommandResult("Imported file is not in excel format");
+            throw new CommandException("Imported file is not in excel format");
         }
         File f = new File(toFile);
         if (!f.exists()) {
             throw new CommandException("the file cannot be found!");
         }
         ImportFileParser converter = new ImportFileParser();
+        List<String> res = converter.jsonToPerson(f);
+        if ( res.isEmpty() ) {
+            throw new CommandException("Wrong format! Please refers to our User Guide");
+        }
         try {
-            List<String> res = converter.jsonToPerson(f);
             for (int i = 0; i < res.size(); i++) {
                 Command c = new AddressBookParser().parseCommand(res.get(i));
                 c.execute(model);
+                count = i; 
             }
-        } catch (NullPointerException e) {
-            return new CommandResult("Wrong format! Please refer to our user guide for correct format");
+        } catch (CommandException e) {
+            throw new CommandException(String.format("Row %d in excel: %s", count + 3, e.getMessage().substring(14)));
         }
         return new CommandResult(String.format(MESSAGE_SUCCESS));
     }
