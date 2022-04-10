@@ -23,7 +23,7 @@ public class ImportFileParser {
      * @param file
      * @return list of command for adding student records
      */
-    public List<String> jsonToPerson(File file) throws NullPointerException, ParseException {
+    public List<String> jsonToPerson(File file) throws NullPointerException {
         resultList = new ArrayList<>();
         ExcelToJsonConverter converter = new ExcelToJsonConverter();
         JsonNode data = converter.excelToJson(file);
@@ -43,7 +43,8 @@ public class ImportFileParser {
                 String mc = "mc/" + person.get("MATRICULATION NUMBER").textValue().trim() + " ";
                 String cs = "cs/" + person.get("COVID STATUS").textValue().trim() + " ";
                 String tag = "t/" + person.get("TAG").textValue().trim() + " ";
-                res = "add " + name + block + faculty + phone + email + address + mc + cs + tag;
+                res = "add " + name + block + faculty + phone + email + address + mc + cs;
+                res = tag.equals("t/ ") ? res : res + tag;
                 try {
                     Command c = new AddressBookParser().parseCommand(res);
                 } catch (ParseException e) {

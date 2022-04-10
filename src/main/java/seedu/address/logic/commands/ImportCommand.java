@@ -7,12 +7,12 @@ import java.util.List;
 
 import com.google.common.io.Files;
 
-import org.checkerframework.checker.units.qual.C;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.excel.ImportFileParser;
+
 
 /**
  * Import Excel file to the address book.
@@ -28,6 +28,7 @@ public class ImportCommand extends Command {
             + ":C//Users//Documents/students.xlsx ";
 
     public static final String MESSAGE_SUCCESS = "New file added!";
+    public static final String MESSAGE_FILE_TYPE = "Imported file is not in excel format";
 
     private static String toFile;
     /**
@@ -53,7 +54,7 @@ public class ImportCommand extends Command {
         int count = 0;
         requireNonNull(model);
         if (!Files.getFileExtension(toFile).equals("xlsx") && !Files.getFileExtension(toFile).equals("xls")) {
-            throw new CommandException("Imported file is not in excel format");
+            throw new CommandException(MESSAGE_FILE_TYPE);
         }
         File f = new File(toFile);
         if (!f.exists()) {
@@ -61,14 +62,14 @@ public class ImportCommand extends Command {
         }
         ImportFileParser converter = new ImportFileParser();
         List<String> res = converter.jsonToPerson(f);
-        if ( res.isEmpty() ) {
+        if (res.isEmpty()) {
             throw new CommandException("Wrong format! Please refers to our User Guide");
         }
         try {
             for (int i = 0; i < res.size(); i++) {
                 Command c = new AddressBookParser().parseCommand(res.get(i));
                 c.execute(model);
-                count = i; 
+                count = i;
             }
         } catch (CommandException e) {
             throw new CommandException(String.format("Row %d in excel: %s", count + 3, e.getMessage().substring(14)));
