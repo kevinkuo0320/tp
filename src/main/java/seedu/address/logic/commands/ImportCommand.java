@@ -40,6 +40,7 @@ public class ImportCommand extends Command {
         }
         requireNonNull(filePath);
         toFile = filePath;
+        System.out.println(toFile);
     }
 
     /**
@@ -52,6 +53,9 @@ public class ImportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException, ParseException {
         int count = 0;
+        if(toFile.equals("")) {
+            throw new CommandException("The file path cannot be empty! Please specify the file directory");
+        }
         requireNonNull(model);
         if (!Files.getFileExtension(toFile).equals("xlsx") && !Files.getFileExtension(toFile).equals("xls")) {
             throw new CommandException(MESSAGE_FILE_TYPE);
