@@ -431,57 +431,6 @@ The `ObservableList` in the `Model` class then updates the display of the contac
 
 TThe `ObservableList` is a JavaFX class which observes and automatically changes the list once an update is performed.
 
-### Filter feature
-
-In this section, the functionality of the filter feature, the expected execution path, the structure of the FilterCommand class, the structure of the FilterCommand class and the interactions between objects with the FilterCommand object will be discussed.
-
-#### What is the filter feature
-
-The filter feature allows users to retrieve a list of specific students, filtering them by covid status, and/or faculty, and/or block.
-
-#### Path execution of filter feature
-
-The `filter` command is as follows:
-
-`filter cs/[COVID STATUS] f/[FACULTY] b/[BLOCK]`
-
-The user can choose whether to input filter criteria for some or all of the fields. However, at least one field must be specified. <br>
-
-The user can thus choose different combinations of filter criteria depending on the motive. For example, if a block head wants to cater to the covid-positive students in a certain block, the user can simply filter by both covid status and block to find out the details of this group of people.
-
-eg.
-`filter cs/positive f/soc` <br>
-This is still a valid input even though the filter criteria for block was not specified. The resultant list will contain students who are both covid-positive and from the faculty "SOC".
-
-The activity diagram shows the possible execution paths for the `filter` command.
-
-**Path Execution of Filter Feature Activity Diagram is shown below:**
-![FilterFeatureActivityDiagram](images/FilterFeatureActivityDiagram.png)
-
-There are two possible execution paths for this command.
-
-1. User inputs the `filter` command with invalid or empty arguments. A ParseException will be thrown, and Tracey will display an error message along with the correct input format to the user.
-2. User inputs the `filter` command with valid arguments. Tracey then stores the specified filter criteria, and displays a list based on those criteria.
-
-Summarise the statistics of the student records inside Tracey.
-
-Format:`summarise`
-* You can get an overview of the students in Tracey if you want to get an idea of the hall block or faculty where Covid is more prevalent.
-* You can see which hall block or faculty has the highest number of Covid cases.
-
-Example of usage:
-* `summarise` will summarise the records of everyone in Tracey. The results is a graphical analysis of the `Covid Status` of the individuals in each block. Additionally, an overview of the `Covid Status` of the Hall population is also provided (refer to figure 4).
-
-<img src='images/SummariseExample.png' alt='SummariseExample' width="400"/> 
-
-*Figure 13a: Example pie charts of Tracey in response to the `summarise` command.* 
-
-<img src ='images/SummariseExample2.png' alt='SummariseExample2' width="400"/> 
-
-*Figure 13b: Example bar chart of Tracey in response to the `summarise` command.*
-
-From *Figure 13aand 13b*, when the user inputs the `Summarise` command, the results are multiple charts of the proportion of the student population categorised by `Covid Status`. These charts are separated into the student `Blocks` and the wider hall population.
-
 ### 3.12. Archiving Tracey
 Archive the current Tracey database. The archived database will be saved in `ROOT/data/archive/DIRECTORY/ARCHIVED_FILE` where:
 * `ROOT`: The folder where the Tracey.jar is in.
@@ -636,30 +585,6 @@ there are changes to Tracey.
 
 
 --------------------------------------------------------------------------------------------------------------------
-
-## **Appendix: Instructions for manual testing**
-
-Given below are instructions to test the app manually.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
-
-</div>
-
-### Launch and shutdown
-
-1. Initial launch
-
-    1. Download the jar file and copy into an empty folder
-
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
-
-1. Saving window preferences
-
-    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-
-    1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
 
 ## 6. Glossary
 
